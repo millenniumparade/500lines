@@ -9,13 +9,14 @@ import argparse
 import os
 import re
 import socket
-import SocketServer
+import socketserver
 import subprocess
 import sys
 import time
-
+import logging
 import helpers
 
+logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s -  %(levelname)s -  %(message)s')
 
 def poll():
     parser = argparse.ArgumentParser()
@@ -58,7 +59,7 @@ def poll():
                 if response != "OK":
                     raise Exception("Could not dispatch the test: %s" %
                     response)
-                print "dispatched!"
+                logging.info("dispatched!")
             else:
                 # Something wrong happened to the dispatcher
                 raise Exception("Could not dispatch the test: %s" %
