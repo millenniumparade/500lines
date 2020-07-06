@@ -59,8 +59,8 @@ class DispatcherHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
         # self.request is the TCP socket connected to the client
-        self.data = self.request.recv(self.BUF_SIZE).strip()
-        command_groups = self.command_re.match(self.data.decode())
+        self.data = self.request.recv(self.BUF_SIZE).strip().decode()
+        command_groups = self.command_re.match(self.data)
         if not command_groups:
             self.request.sendall(str.encode("Invalid command"))
             return
@@ -99,6 +99,7 @@ class DispatcherHandler(socketserver.BaseRequestHandler):
             if not os.path.exists("test_results"):
                 os.makedirs("test_results")
             with open("test_results/%s" % commit_id, "w") as f:
+                logging.info(self.data)
                 data = self.data.split(":")[3:]
                 data = "\n".join(data)
                 f.write(data)

@@ -56,6 +56,7 @@ def poll():
                 response = helpers.communicate(dispatcher_host,
                                                int(dispatcher_port),
                                                "dispatch:%s" % commit)
+                logging.debug(response)
                 if response != "OK":
                     raise Exception("Could not dispatch the test: %s" %
                     response)
